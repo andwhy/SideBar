@@ -2,6 +2,10 @@ import UIKit
 
 struct SideMenuItem {
     var title: String?
+    
+    init(title: String) {
+        self.title = title
+    }
 }
 
 class SidePanelViewController: UIViewController {
@@ -24,7 +28,16 @@ class SidePanelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        tableView.delegate = self
+        tableView.dataSource = self
         
+        view.addSubview(tableView)
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+                
         tableView.reloadData()
     }
 }

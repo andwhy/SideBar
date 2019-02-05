@@ -32,6 +32,8 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor.white
+        
         guard let centerViewController = centerViewController else {
             assertionFailure("You MUST provide center view controller")
             return
@@ -63,14 +65,35 @@ extension ContainerViewController: ContainerControllerProtocol {
     private func configureLeftPanelViewController() -> SidePanelViewController {
         
         let vc = SidePanelViewController()
+
+        var menuItems = [SideMenuItem]()
+        
+        for n in 0...10 {
+            menuItems.append(SideMenuItem(title: String.init(format: "%i", n)))
+        }
+        
+        vc.menuItems = menuItems
         vc.view.backgroundColor = UIColor.green
+        vc.view.frame.size.width -= centerPanelExpandedOffset
+
         return vc
     }
     
     private func configureRightPanelViewController() -> SidePanelViewController {
         
         let vc = SidePanelViewController()
+        
+        var menuItems = [SideMenuItem]()
+        
+        for n in 0...10 {
+            menuItems.append(SideMenuItem(title: String.init(format: "%i", n)))
+        }
+        
+        vc.menuItems = menuItems
         vc.view.backgroundColor = UIColor.blue
+        vc.view.frame.size.width -= centerPanelExpandedOffset
+        vc.view.frame.origin.x += centerPanelExpandedOffset
+        
         return vc
     }
 }

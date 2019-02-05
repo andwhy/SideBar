@@ -4,6 +4,15 @@ class CenterViewController: UIViewController {
 
     var delegate: CenterViewControllerDelegate?
     
+    let label: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "0"
+
+        return label
+    }()
+    
     //MARK:Lifecycle
     
     override func viewDidLoad() {
@@ -13,6 +22,12 @@ class CenterViewController: UIViewController {
         
         let rightButton = UIBarButtonItem(title: "=", style: .plain, target: self, action: #selector(rightButtonTapped(_:)))
         self.navigationItem.rightBarButtonItem  = rightButton
+        
+        view.addSubview(label)
+        label.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        label.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
     }
     
 
@@ -31,7 +46,8 @@ class CenterViewController: UIViewController {
 extension CenterViewController: SidePanelViewControllerDelegate {
 
     func didSelectRowAt(_ rowNumber: Int) {
-        print("row number - \(rowNumber)")
+        
+        label.text = "\(rowNumber)"
         
         delegate?.collapseSidePanels?()
     }
