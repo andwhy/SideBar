@@ -22,13 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         centerVC.view.backgroundColor = UIColor.white
         
         let navigationController = UINavigationController()
-        let leftVC = SidePanelViewController()
-        leftVC.view.backgroundColor = UIColor.green
-
-        let rightVC = SidePanelViewController()
-        rightVC.view.backgroundColor = UIColor.blue
         
-        let containerViewController = ContainerViewController(centerVC: centerVC, navigationController: navigationController, leftVC: leftVC, rightVC: rightVC)
+        let containerViewController = ContainerViewController(centerVC: centerVC, navigationController: navigationController)
         
         window!.rootViewController = containerViewController
         window!.makeKeyAndVisible()

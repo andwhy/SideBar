@@ -22,13 +22,11 @@ class ContainerViewController: UIViewController {
     
     private let centerPanelExpandedOffset: CGFloat = 60
     
-    public convenience init(centerVC: CenterViewController, navigationController: UINavigationController, leftVC: SidePanelViewController?, rightVC: SidePanelViewController?) {
+    public convenience init(centerVC: CenterViewController, navigationController: UINavigationController) {
         
         self.init()
         centerViewController = centerVC
         centerNavigationController = navigationController
-//        leftViewController = leftVC
-//        rightViewController = rightVC
     }
     
     override func viewDidLoad() {
@@ -44,14 +42,6 @@ class ContainerViewController: UIViewController {
             return
         }
         
-//        if let leftViewController = leftViewController {
-//            addChildSidePanelController(leftViewController)
-//        }
-//
-//        if let rightViewController = rightViewController {
-//            addChildSidePanelController(rightViewController)
-//        }
-        
         centerViewController.delegate = self
         
         centerNavigationController.viewControllers = [centerViewController]
@@ -63,6 +53,25 @@ class ContainerViewController: UIViewController {
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
         centerNavigationController.view.addGestureRecognizer(panGestureRecognizer)
+    }
+}
+
+// MARK: CenterViewController protocol
+
+extension ContainerViewController: ContainerControllerProtocol {
+    
+    private func configureLeftPanelViewController() -> SidePanelViewController {
+        
+        let vc = SidePanelViewController()
+        vc.view.backgroundColor = UIColor.green
+        return vc
+    }
+    
+    private func configureRightPanelViewController() -> SidePanelViewController {
+        
+        let vc = SidePanelViewController()
+        vc.view.backgroundColor = UIColor.blue
+        return vc
     }
 }
 
@@ -103,16 +112,27 @@ extension ContainerViewController: CenterViewControllerDelegate {
             break
         }
     }
-    
-    private func addLeftPanelViewController() {
+
+    func addLeftPanelViewController() {
         
         guard leftViewController == nil else { return }
         
-        let leftVC = SidePanelViewController()
-        leftVC.view.backgroundColor = UIColor.green
+        leftViewController = configureLeftPanelViewController()
         
-        addChildSidePanelController(leftVC)
-        leftViewController = leftVC
+        if let leftViewController = leftViewController {
+            addChildSidePanelController(leftViewController)
+        }
+    }
+    
+    func addRightPanelViewController() {
+        
+        guard rightViewController == nil else { return }
+        
+        rightViewController = configureRightPanelViewController()
+        
+        if let rightViewController = rightViewController {
+            addChildSidePanelController(rightViewController)
+        }
     }
     
     private func addChildSidePanelController(_ sidePanelController: SidePanelViewController) {
@@ -122,18 +142,6 @@ extension ContainerViewController: CenterViewControllerDelegate {
         
         addChild(sidePanelController)
         sidePanelController.didMove(toParent: self)
-    }
-    
-    private func addRightPanelViewController() {
-        
-        guard rightViewController == nil else { return }
-        
-        let rightVC = SidePanelViewController()
-        rightVC.view.backgroundColor = UIColor.blue
-        
-        addChildSidePanelController(rightVC)
-        rightViewController = rightVC
-
     }
     
     private func animateLeftPanel(shouldExpand: Bool) {
